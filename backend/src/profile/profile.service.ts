@@ -13,16 +13,28 @@ export class ProfileService {
     constructor(private readonly db: DbConfigService) {}
 
     async create(githubProfileDto: GitHubProfileDto) {
+
+        const {name,bio,public_repos,following,followers,avatar_url,login} = githubProfileDto
+
         try {
             const profile = await this.db.gitHubProfile.create({
-                data: githubProfileDto
+                data:{
+                    name: name,
+                    bio: bio,
+                    public_repos: public_repos,
+                    following: following,
+                    followers: followers,
+                    avatar_url: avatar_url,
+                    login: login,
+
+                }
             })
 
             return profile
 
         } catch (error) {
 
-
+console.error(error)
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
 
                 switch (error.code) {
